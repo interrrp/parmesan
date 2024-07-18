@@ -2,7 +2,11 @@
 name = "parmesan"
 version = "0.1.0"
 requires-python = "==3.12.*"
-dependencies = ["typer>=0.12.3", "pyperclip>=1.9.0"]
+dependencies = [
+    "typer>=0.12.3",
+    "pyperclip>=1.9.0",
+    "cryptography>=42.0.8",
+]
 
 [project.scripts]
 parmesan = "parmesan.__main__:main"
@@ -11,3 +15,5 @@ parmesan = "parmesan.__main__:main"
 line-length = 100
 select = ["ALL"]
 ignore = ["D", "T201", "TRY003", "EM101"]
+
+[tool.pdm]

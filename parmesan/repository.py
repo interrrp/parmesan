@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import override
 
+from parmesan.encryption import Encryptor
+
 
 class PasswordRepository(ABC):
     @abstractmethod
@@ -48,3 +50,31 @@ class PicklePasswordRepository(PasswordRepository):
     @override
     def __contains__(self, name: str) -> bool:
         return name in self.passwords
+
+
+@dataclass
+class EncryptedPasswordRepository(PasswordRepository):
+    base_repository: PasswordRepository
+    encryptor: Encryptor
+    master_password: str
+
+    @override
+    def __getitem__(self, name: str) -> str | None:
+        encrypted_password = self.base_repository[name]
+        if encrypted_password is None:
+            return None
+        return self.encryptor.decrypt(encrypted_password, self.master_password)
+
+    @override
+    def __setitem__(self, name: str, password: str) -> None:
+        encrypted_password = self.encryptor.encrypt(password, self.master_password)
+        self.base_repository[name] = encrypted_password
+
+    @override
+    def __delitem__(self, name: str) -> None:
+        if name in self.base_repository:
+            del self.base_repository[name]
+
+    @override
+    def __contains__(self, name: str) -> bool:
+        return name in self.base_repository

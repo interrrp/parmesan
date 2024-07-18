@@ -1,13 +1,23 @@
 import pyperclip  # pyright: ignore[reportMissingTypeStubs]
 from rich import print
-from rich.prompt import Confirm
+from rich.prompt import Confirm, Prompt
 from typer import Typer
 
 from parmesan import messages
-from parmesan.repository import PasswordRepository, PicklePasswordRepository
+from parmesan.encryption import FernetEncryptor
+from parmesan.repository import (
+    EncryptedPasswordRepository,
+    PasswordRepository,
+    PicklePasswordRepository,
+)
 
 app = Typer()
-password_repository: PasswordRepository = PicklePasswordRepository()
+
+password_repository: PasswordRepository = EncryptedPasswordRepository(
+    PicklePasswordRepository(),
+    FernetEncryptor(),
+    Prompt.ask("Enter master password"),
+)
 
 
 @app.command()
