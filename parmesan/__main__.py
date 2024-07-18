@@ -16,7 +16,7 @@ app = Typer()
 password_repository: PasswordRepository = EncryptedPasswordRepository(
     PicklePasswordRepository(),
     FernetEncryptor(),
-    Prompt.ask("Enter master password"),
+    Prompt.ask("[gray50]Enter master password (hidden)[/gray50]", password=True),
 )
 
 
@@ -31,34 +31,34 @@ def add(name: str, password: str) -> None:
             return
 
     password_repository[name] = password
-    print(messages.SET_PASSWORD.format(len(password), name))
+    print(messages.SET_PASSWORD.format(length=len(password), name=name))
 
 
 @app.command()
 def get(name: str) -> None:
     if name not in password_repository:
-        print(messages.PASSWORD_NOT_FOUND.format(name))
+        print(messages.PASSWORD_NOT_FOUND.format(name=name))
         return
 
     password = password_repository[name]
     pyperclip.copy(password)  # pyright: ignore[reportUnknownMemberType]
-    print(messages.COPY_PASSWORD.format(name))
+    print(messages.COPY_PASSWORD.format(name=name))
 
 
 @app.command()
 @app.command("delete")
 def remove(name: str) -> None:
     if name not in password_repository:
-        print(messages.PASSWORD_NOT_FOUND.format(name))
+        print(messages.PASSWORD_NOT_FOUND.format(name=name))
         return
 
-    confirm_delete = Confirm.ask(messages.CONFIRM_DELETE.format(name))
+    confirm_delete = Confirm.ask(messages.CONFIRM_DELETE.format(name=name))
     if not confirm_delete:
         print(messages.ABORTED)
         return
 
     del password_repository[name]
-    print(messages.REMOVED_PASSWORD.format(name))
+    print(messages.REMOVED_PASSWORD.format(name=name))
 
 
 def main() -> None:
