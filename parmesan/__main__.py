@@ -1,4 +1,5 @@
 import pyperclip  # pyright: ignore[reportMissingTypeStubs]
+from cryptography.fernet import InvalidToken
 from rich import print
 from rich.prompt import Confirm, Prompt
 from typer import Typer
@@ -62,7 +63,10 @@ def remove(name: str) -> None:
 
 
 def main() -> None:
-    app()
+    try:
+        app()
+    except InvalidToken:
+        print("[red]Incorrect master password[/red]")
 
 
 if __name__ == "__main__":
