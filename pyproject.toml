@@ -10,4 +10,4 @@ parmesan = "parmesan.__main__:main"
 [tool.ruff]
 line-length = 100
 select = ["ALL"]
-ignore = ["D", "T201"]
+ignore = ["D", "T201", "TRY003", "EM101"]
