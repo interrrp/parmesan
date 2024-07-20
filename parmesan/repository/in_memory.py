@@ -26,10 +26,7 @@ class InMemoryPasswordRepository(PasswordRepository):
 
     @override
     def __delitem__(self, name: str) -> None:
-        if name in self.passwords:
-            del self.passwords[name]
-        else:
-            raise KeyError(f"Password '{name}' not found")
+        del self.passwords[name]
 
     @override
     def __contains__(self, name: str) -> bool:
