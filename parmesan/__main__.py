@@ -54,6 +54,10 @@ def remove(name: str) -> None:
         print(messages.ABORTED)
         return
 
+    # Access the password to see if it can be decrypted. If the wrong master
+    # password was entered, it will raise an error and we will not continue.
+    password_repository[name]
+
     del password_repository[name]
     print(messages.REMOVED_PASSWORD.format(name=name))
 
