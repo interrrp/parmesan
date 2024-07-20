@@ -1,11 +1,11 @@
 import pyperclip  # pyright: ignore[reportMissingTypeStubs]
-from cryptography.fernet import InvalidToken
 from rich import print
 from rich.prompt import Confirm, Prompt
 from typer import Typer
 
 from parmesan import messages
 from parmesan.encryption import FernetEncryptor
+from parmesan.encryption.errors import IncorrectMasterPasswordError
 from parmesan.repository import EncryptedPasswordRepository, PasswordRepository, PicklePasswordRepository
 
 app = Typer()
@@ -65,7 +65,7 @@ def remove(name: str) -> None:
 def main() -> None:
     try:
         app()
-    except InvalidToken:
+    except IncorrectMasterPasswordError:
         print("[red]Incorrect master password[/red]")
 
 

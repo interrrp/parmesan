@@ -26,4 +26,7 @@ class Encryptor(ABC):
 
         Returns:
             The encrypted text as a string.
+
+        Raises:
+            IncorrectMasterPasswordError: If the master password is incorrect.
         """

@@ -2,12 +2,13 @@ import base64
 import os
 from typing import override
 
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 from parmesan.encryption.abc import Encryptor
+from parmesan.encryption.errors import IncorrectMasterPasswordError
 
 
 class FernetEncryptor(Encryptor):
@@ -48,4 +49,7 @@ class FernetEncryptor(Encryptor):
         encrypted_text = decoded_data[16:]
         key = self.derive_key(master_password, salt)
         cipher_suite = Fernet(key)
-        return cipher_suite.decrypt(encrypted_text).decode()
+        try:
+            return cipher_suite.decrypt(encrypted_text).decode()
+        except InvalidToken as err:
+            raise IncorrectMasterPasswordError from err
