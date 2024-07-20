@@ -7,8 +7,8 @@ class PasswordRepository(ABC):
     This class defines the interface for a password repository, which is
     responsible for storing and retrieving passwords.
 
-    Subclasses of PasswordRepository must implement the abstract methods defined
-    in this class.
+    Subclasses of `PasswordRepository` must implement the abstract methods
+    defined in this class.
 
     Attributes:
         __getitem__: Get a password.
