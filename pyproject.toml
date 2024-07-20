@@ -14,7 +14,10 @@ test = { cmd = "python -m pytest" }
 parmesan = "parmesan.__main__:main"
 
 [tool.ruff]
-line-length = 100
+line-length = 119
 select = ["ALL"]
 ignore = ["D", "T201", "TRY003", "EM101"]
-per-file-ignores = { "tests/*" = ["S101"] }
+per-file-ignores = { "tests/*" = ["S101"], "**/__init__.py" = ["F401"] }
+
+[tool.pyright]
+reportUnusedCallResult = "none"

@@ -6,11 +6,7 @@ from typer import Typer
 
 from parmesan import messages
 from parmesan.encryption import FernetEncryptor
-from parmesan.repository import (
-    EncryptedPasswordRepository,
-    PasswordRepository,
-    PicklePasswordRepository,
-)
+from parmesan.repository import EncryptedPasswordRepository, PasswordRepository, PicklePasswordRepository
 
 app = Typer()
 
@@ -42,7 +38,7 @@ def get(name: str) -> None:
         return
 
     password = password_repository[name]
-    pyperclip.copy(password)  # pyright: ignore[reportUnknownMemberType]
+    pyperclip.copy(password)  # type: ignore[reportUnknownMemberType]
     print(messages.COPY_PASSWORD.format(name=name))
 
 
