@@ -24,7 +24,7 @@ class PicklePasswordRepository(PasswordRepository):
     passwords: dict[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        """Initialize the PicklePasswordRepository.
+        """Initialize the `PicklePasswordRepository`.
 
         If the pickle file does not exist, an empty dictionary is saved to
         create the file. The passwords are then loaded from the pickle file.
@@ -37,54 +37,22 @@ class PicklePasswordRepository(PasswordRepository):
 
     def save(self) -> None:
         """Save the passwords dictionary to the pickle file."""
-
         self.path.write_bytes(pickle.dumps(self.passwords))
 
     @override
     def __getitem__(self, name: str) -> str | None:
-        """Get the password associated with the given name.
-
-        Args:
-            name: The name of the password.
-
-        Returns:
-            The password associated with the name, or `None` if the name is not found.
-        """
-
         return self.passwords.get(name)
 
     @override
     def __setitem__(self, name: str, password: str) -> None:
-        """Set the password for the given name.
-
-        Args:
-            name: The name of the password.
-            password: The password to set.
-        """
-
         self.passwords[name] = password
         self.save()
 
     @override
     def __delitem__(self, name: str) -> None:
-        """Delete the password associated with the given name.
-
-        Args:
-            name: The name of the password.
-        """
-
         del self.passwords[name]
         self.save()
 
     @override
     def __contains__(self, name: str) -> bool:
-        """Check if the password repository contains a password with the given name.
-
-        Args:
-            name: The name of the password.
-
-        Returns:
-            `True` if the password repository contains the name, `False` otherwise.
-        """
-
         return name in self.passwords
