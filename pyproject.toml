@@ -16,7 +16,7 @@ parmesan = "parmesan.__main__:main"
 [tool.ruff]
 line-length = 119
 select = ["ALL"]
-ignore = ["D", "T201", "TRY003", "EM101"]
+ignore = ["D", "T201", "TRY003", "EM101", "EM102"]
 per-file-ignores = { "tests/*" = ["S101"], "**/__init__.py" = ["F401"] }
 
 [tool.pyright]
