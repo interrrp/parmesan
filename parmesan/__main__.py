@@ -4,14 +4,13 @@ from rich.prompt import Confirm, Prompt
 from typer import Typer
 
 from parmesan import messages
-from parmesan.encryption import FernetEncryptor
-from parmesan.encryption.errors import IncorrectMasterPasswordError
-from parmesan.repository import EncryptedPasswordRepository, PasswordRepository, PicklePasswordRepository
+from parmesan.encryption import FernetEncryptor, IncorrectMasterPasswordError
+from parmesan.repository import EncryptedPasswordRepository, PasswordRepository, SqlitePasswordRepository
 
 app = Typer()
 
 password_repository: PasswordRepository = EncryptedPasswordRepository(
-    PicklePasswordRepository(),
+    SqlitePasswordRepository(),
     FernetEncryptor(),
     Prompt.ask("[gray50]Enter master password (hidden)[/gray50]", password=True),
 )
